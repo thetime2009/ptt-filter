@@ -1,0 +1,105 @@
+/* ===== LOGIN PAGE — Light Blue/White Theme ===== */
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 60px 24px;
+  background: linear-gradient(160deg, var(--background) 0%, var(--background-alt) 100%);
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 44px 40px;
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  border: 1.5px solid var(--card-border);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  font-size: 26px;
+  text-align: center;
+  font-family: var(--font-display);
+  color: var(--foreground);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--muted-foreground);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.errorAlert {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1.5px solid rgba(239, 68, 68, 0.2);
+  color: var(--danger);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.input {
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  color: var(--foreground);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.input::placeholder {
+  color: var(--muted);
+}
+
+.input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.submitBtn {
+  background: var(--primary);
+  color: #fff;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  margin-top: 8px;
+  box-shadow: 0 4px 14px rgba(26, 109, 204, 0.25);
+}
+
+.submitBtn:hover {
+  background: var(--primary-hover);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}

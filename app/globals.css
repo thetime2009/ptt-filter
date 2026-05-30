@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap');
+
+/* ===== DESIGN TOKENS ===== */
+:root {
+  /* Base */
+  --background:       #f0f6ff;
+  --background-alt:   #e8f1fd;
+  --foreground:       #0d1b3e;
+
+  /* Cards */
+  --card:             #ffffff;
+  --card-foreground:  #0d1b3e;
+  --card-border:      rgba(59, 130, 246, 0.15);
+
+  /* Primary — Ocean Blue */
+  --primary:          #1a6dcc;
+  --primary-hover:    #1558a8;
+  --primary-light:    rgba(26, 109, 204, 0.1);
+  --primary-foreground: #ffffff;
+
+  /* Secondary — Sky */
+  --secondary:        #dbeafe;
+  --secondary-hover:  #bfdbfe;
+  --secondary-foreground: #1e3a5f;
+
+  /* Accent — Cyan */
+  --accent:           #0ea5e9;
+  --accent-hover:     #0284c7;
+  --accent-light:     rgba(14, 165, 233, 0.12);
+  --accent-foreground: #ffffff;
+
+  /* Muted */
+  --muted:            #cbd5e1;
+  --muted-foreground: #4b6a8e;
+
+  /* Borders */
+  --border:           #c7daf5;
+  --border-focus:     #1a6dcc;
+
+  /* Status */
+  --success:          #10b981;
+  --danger:           #ef4444;
+
+  /* Elevation Shadows */
+  --shadow-sm:   0 1px 3px rgba(13,27,62,0.06), 0 1px 2px rgba(13,27,62,0.04);
+  --shadow-md:   0 4px 16px rgba(26,109,204,0.10), 0 1px 4px rgba(13,27,62,0.06);
+  --shadow-lg:   0 8px 32px rgba(26,109,204,0.14), 0 2px 8px rgba(13,27,62,0.08);
+  --shadow-glow: 0 0 20px rgba(26, 109, 204, 0.25);
+
+  /* Radius */
+  --radius:    14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Rajdhani', var(--font-sans);
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+}
+
+img { max-width: 100%; }
+
+/* ===== UTILITIES ===== */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--foreground);
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--background-alt); }
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--primary-hover); }
+
+/* ===== BUTTONS (global) ===== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+}
