@@ -1,3 +1,4 @@
+import { put } from '@vercel/blob';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
@@ -9,20 +10,23 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: 'ไม่พบไฟล์ภาพ' }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    
-    // Convert to Base64 Data URL to allow database storage and bypass read-only filesystem limitations on Vercel
-    const mimeType = file.type || 'image/jpeg';
-    const base64 = buffer.toString('base64');
-    const dataUri = `data:${mimeType};base64,${base64}`;
+    // Generate a unique filename to prevent overwrites
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const ext = file.name.includes('.') ? file.name.substring(file.name.lastIndexOf('.')) : '.jpg';
+    const filename = `products/product-${uniqueSuffix}${ext}`;
+
+    // Upload directly to Vercel Blob Storage
+    // Vercel automatically provides BLOB_READ_WRITE_TOKEN in production
+    const blob = await put(filename, file, {
+      access: 'public',
+    });
 
     return NextResponse.json({
       success: true,
-      filePath: dataUri
+      filePath: blob.url // This will be stored in the database
     });
   } catch (err: any) {
-    console.error('Upload API Error:', err);
-    return NextResponse.json({ success: false, error: 'เกิดข้อผิดพลาดในการเขียนไฟล์' }, { status: 500 });
+    console.error('Vercel Blob Upload Error:', err);
+    return NextResponse.json({ success: false, error: err.message || 'เกิดข้อผิดพลาดในการอัปโหลดไฟล์ภาพ' }, { status: 500 });
   }
 }
