@@ -64,17 +64,25 @@ export default function ProductForm({ categories, initialProduct, saveAction }: 
         method: 'POST',
         body: formData
       });
+      
+      if (!res.ok) {
+        const errorText = await res.text();
+        alert(`อัปโหลดล้มเหลว (Server Status: ${res.status}): ${errorText}`);
+        return;
+      }
+      
       const data = await res.json();
       if (data.success && data.filePath) {
         setImages([...images, data.filePath]);
       } else {
         alert(data.error || 'อัพโหลดรูปล้มเหลว');
       }
-    } catch(err) {
+    } catch(err: any) {
       console.error(err);
-      alert('มีข้อผิดพลาดบางอย่างขณะอัพโหลด');
+      alert(`มีข้อผิดพลาดขณะอัพโหลด: ${err.message || String(err)}`);
     } finally {
       setUploading(false);
+      e.target.value = '';
     }
   };
 

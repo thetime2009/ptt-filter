@@ -15,19 +15,25 @@ export async function POST(req: Request) {
     const ext = file.name.includes('.') ? file.name.substring(file.name.lastIndexOf('.')) : '.jpg';
     const filename = `products/product-${uniqueSuffix}${ext}`;
 
-    // Upload directly to Vercel Blob Storage
-    // Vercel automatically provides BLOB_READ_WRITE_TOKEN in production
-    const blob = await put(filename, file, {
+    // Read file bytes into a Buffer to ensure compatibility and prevent streams hanging in Serverless environments
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    // Upload directly to Vercel Blob Storage using the Buffer
+    const blob = await put(filename, buffer, {
       access: 'public',
       token: process.env.BLOB_READ_WRITE_TOKEN,
     });
 
     return NextResponse.json({
       success: true,
-      filePath: blob.url // This will be stored in the database
+      filePath: blob.url
     });
   } catch (err: any) {
     console.error('Vercel Blob Upload Error:', err);
-    return NextResponse.json({ success: false, error: err.message || 'เกิดข้อผิดพลาดในการอัปโหลดไฟล์ภาพ' }, { status: 500 });
+    return NextResponse.json({ 
+      success: false, 
+      error: err.message || 'เกิดข้อผิดพลาดในการอัปโหลดไฟล์ภาพ' 
+    }, { status: 500 });
   }
 }
