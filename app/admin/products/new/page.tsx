@@ -5,18 +5,29 @@ import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
-export default function NewProductPage() {
-  const categories = db.prepare('SELECT * FROM categories').all() as any[];
+export default async function NewProductPage() {
+  const categoriesRes = await db.query('SELECT * FROM categories');
+  const categories = categoriesRes.rows;
 
   // Server Action to create the product
   const createAction = async (payload: any) => {
     'use server';
 
     try {
-      db.prepare(`
+      await db.query(`
         INSERT INTO products (name, name_th, slug, category_id, description, description_th, images, specs, is_active)
-        VALUES (@name, @name_th, @slug, @category_id, @description, @description_th, @images, @specs, @is_active)
-      `).run(payload);
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      `, [
+        payload.name,
+        payload.name_th,
+        payload.slug,
+        parseInt(payload.category_id),
+        payload.description,
+        payload.description_th,
+        payload.images,
+        payload.specs,
+        payload.is_active ? 1 : 0
+      ]);
       
       revalidatePath('/admin/products');
       revalidatePath('/products');

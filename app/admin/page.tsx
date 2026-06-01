@@ -4,18 +4,24 @@ import styles from './admin.module.css';
 
 export const dynamic = 'force-dynamic';
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
   // Query counts and stats
-  const productsCount = db.prepare('SELECT COUNT(*) as count FROM products').get() as any;
-  const categoriesCount = db.prepare('SELECT COUNT(*) as count FROM categories').get() as any;
-  const usersCount = db.prepare('SELECT COUNT(*) as count FROM users').get() as any;
+  const productsCountRes = await db.query('SELECT COUNT(*) as count FROM products');
+  const productsCount = productsCountRes.rows[0];
 
-  const recentProducts = db.prepare(`
+  const categoriesCountRes = await db.query('SELECT COUNT(*) as count FROM categories');
+  const categoriesCount = categoriesCountRes.rows[0];
+
+  const usersCountRes = await db.query('SELECT COUNT(*) as count FROM users');
+  const usersCount = usersCountRes.rows[0];
+
+  const recentProductsRes = await db.query(`
     SELECT p.*, c.name_th as category_name_th 
     FROM products p 
     JOIN categories c ON p.category_id = c.id 
     ORDER BY p.id DESC LIMIT 5
-  `).all() as any[];
+  `);
+  const recentProducts = recentProductsRes.rows;
 
   return (
     <div className={`${styles.container} container`}>

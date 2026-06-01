@@ -21,24 +21,27 @@ export default async function ProductsPage({
   const t = translations[locale] || translations.th;
 
   // Get categories for sidebar
-  const categories = db.prepare('SELECT * FROM categories').all() as any[];
+  const categoriesRes = await db.query('SELECT * FROM categories');
+  const categories = categoriesRes.rows;
 
   // Get products based on filter query
-  let products = [];
+  let products = [] as any[];
   if (selectedCategorySlug) {
-    products = db.prepare(`
+    const productsRes = await db.query(`
       SELECT p.*, c.name as category_name_en, c.name_th as category_name_th 
       FROM products p 
       JOIN categories c ON p.category_id = c.id 
-      WHERE c.slug = ? AND p.is_active = 1
-    `).all(selectedCategorySlug) as any[];
+      WHERE c.slug = $1 AND p.is_active = 1
+    `, [selectedCategorySlug]);
+    products = productsRes.rows;
   } else {
-    products = db.prepare(`
+    const productsRes = await db.query(`
       SELECT p.*, c.name as category_name_en, c.name_th as category_name_th 
       FROM products p 
       JOIN categories c ON p.category_id = c.id 
       WHERE p.is_active = 1
-    `).all() as any[];
+    `);
+    products = productsRes.rows;
   }
 
   return (

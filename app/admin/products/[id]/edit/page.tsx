@@ -13,8 +13,10 @@ export default async function EditProductPage({
 }) {
   const resolvedParams = await params;
   const productId = parseInt(resolvedParams.id);
-  const product = db.prepare('SELECT * FROM products WHERE id = ?').get(productId) as any;
-  const categories = db.prepare('SELECT * FROM categories').all() as any[];
+  const productRes = await db.query('SELECT * FROM products WHERE id = $1', [productId]);
+  const product = productRes.rows[0];
+  const categoriesRes = await db.query('SELECT * FROM categories');
+  const categories = categoriesRes.rows;
 
   if (!product) {
     notFound();
@@ -25,20 +27,31 @@ export default async function EditProductPage({
     'use server';
 
     try {
-      db.prepare(`
+      await db.query(`
         UPDATE products 
-        SET name = @name, 
-            name_th = @name_th, 
-            slug = @slug, 
-            category_id = @category_id, 
-            description = @description, 
-            description_th = @description_th, 
-            images = @images, 
-            specs = @specs, 
-            is_active = @is_active,
+        SET name = $1, 
+            name_th = $2, 
+            slug = $3, 
+            category_id = $4, 
+            description = $5, 
+            description_th = $6, 
+            images = $7, 
+            specs = $8, 
+            is_active = $9,
             updated_at = CURRENT_TIMESTAMP
-        WHERE id = @id
-      `).run(payload);
+        WHERE id = $10
+      `, [
+        payload.name,
+        payload.name_th,
+        payload.slug,
+        parseInt(payload.category_id),
+        payload.description,
+        payload.description_th,
+        payload.images,
+        payload.specs,
+        payload.is_active ? 1 : 0,
+        payload.id
+      ]);
       
       revalidatePath('/admin/products');
       revalidatePath(`/products/${payload.id}`);

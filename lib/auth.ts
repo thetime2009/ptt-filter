@@ -17,7 +17,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!credentials?.email || !credentials?.password) return null;
         
         try {
-          const user = db.prepare('SELECT * FROM users WHERE email = ?').get(credentials.email) as any;
+          const res = await db.query('SELECT * FROM users WHERE email = $1', [credentials.email]);
+          const user = res.rows[0];
           if (!user) return null;
 
           const isPasswordValid = bcrypt.compareSync(credentials.password as string, user.password_hash);

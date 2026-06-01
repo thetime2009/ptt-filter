@@ -1,12 +1,19 @@
-import Database from 'better-sqlite3';
-import path from 'path';
+import { Pool } from 'pg';
 
-const dbPath = path.join(process.cwd(), 'database.sqlite');
-const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+const connectionString = process.env.POSTGRES_URL;
 
-export const db = new Database(dbPath, {
-  readonly: isProduction,
+export const pool = new Pool({
+  connectionString,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
+
+export const db = {
+  async query(text: string, params?: any[]) {
+    return pool.query(text, params);
+  },
+};
 
 export interface User {
   id: number;

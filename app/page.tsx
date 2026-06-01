@@ -10,7 +10,8 @@ export default async function Home() {
   const locale = (cookieStore.get('locale')?.value || 'th') as Locale;
   const t = translations[locale] || translations.th;
 
-  const categories = db.prepare('SELECT * FROM categories').all() as any[];
+  const categoriesRes = await db.query('SELECT * FROM categories');
+  const categories = categoriesRes.rows;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>

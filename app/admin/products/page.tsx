@@ -6,18 +6,19 @@ import DeleteProductBtn from './DeleteProductBtn';
 
 export const dynamic = 'force-dynamic';
 
-export default function AdminProductsPage() {
-  const products = db.prepare(`
+export default async function AdminProductsPage() {
+  const productsRes = await db.query(`
     SELECT p.*, c.name_th as category_name_th 
     FROM products p 
     JOIN categories c ON p.category_id = c.id 
     ORDER BY p.id DESC
-  `).all() as any[];
+  `);
+  const products = productsRes.rows;
 
   // Server action to delete product
   const deleteProductAction = async (id: number) => {
     'use server';
-    db.prepare('DELETE FROM products WHERE id = ?').run(id);
+    await db.query('DELETE FROM products WHERE id = $1', [id]);
     revalidatePath('/admin/products');
     revalidatePath('/products');
   };

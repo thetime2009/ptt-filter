@@ -20,12 +20,13 @@ export default async function ProductDetailPage({
   const locale = (cookieStore.get('locale')?.value || 'th') as Locale;
   const t = translations[locale] || translations.th;
 
-  const product = db.prepare(`
+  const productRes = await db.query(`
     SELECT p.*, c.name as category_name_en, c.name_th as category_name_th 
     FROM products p 
     JOIN categories c ON p.category_id = c.id 
-    WHERE p.id = ? AND p.is_active = 1
-  `).get(productId) as any;
+    WHERE p.id = $1 AND p.is_active = 1
+  `, [productId]);
+  const product = productRes.rows[0];
 
   if (!product) {
     return (
