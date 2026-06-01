@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
 
 export async function POST(req: Request) {
   try {
@@ -13,24 +11,15 @@ export async function POST(req: Request) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-
-    // Save image to /public/uploads
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
     
-    // Ensure dir exists
-    await mkdir(uploadDir, { recursive: true });
-
-    // Generate unique name
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.name) || '.jpg';
-    const filename = `product-${uniqueSuffix}${ext}`;
-    const filePath = path.join(uploadDir, filename);
-
-    await writeFile(filePath, buffer);
+    // Convert to Base64 Data URL to allow database storage and bypass read-only filesystem limitations on Vercel
+    const mimeType = file.type || 'image/jpeg';
+    const base64 = buffer.toString('base64');
+    const dataUri = `data:${mimeType};base64,${base64}`;
 
     return NextResponse.json({
       success: true,
-      filePath: `/uploads/${filename}`
+      filePath: dataUri
     });
   } catch (err: any) {
     console.error('Upload API Error:', err);
