@@ -19,6 +19,7 @@ export async function POST(req: Request) {
     // Vercel automatically provides BLOB_READ_WRITE_TOKEN in production
     const blob = await put(filename, file, {
       access: 'public',
+      token: process.env.BLOB_READ_WRITE_TOKEN,
     });
 
     return NextResponse.json({
