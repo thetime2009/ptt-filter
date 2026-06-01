@@ -50,6 +50,7 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
             name="email"
             type="email"
             required
+            autoComplete="email"
             className={styles.input}
             placeholder="admin@pttfilter.com"
           />
@@ -61,6 +62,7 @@ export default function LoginForm({ loginAction }: LoginFormProps) {
             name="password"
             type="password"
             required
+            autoComplete="current-password"
             className={styles.input}
             placeholder="••••••••"
           />
