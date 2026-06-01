@@ -9,14 +9,14 @@ export default function LoginPage() {
       await signIn('credentials', {
         email: formData.get('email'),
         password: formData.get('password'),
-        redirect: false
+        redirectTo: '/admin'
       });
       return { success: true };
     } catch (error) {
       if (error instanceof AuthError) {
         return { success: false, error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' };
       }
-      return { success: false, error: 'มีข้อผิดพลาดบางอย่างเกิดขึ้น' };
+      throw error;
     }
   };
 
