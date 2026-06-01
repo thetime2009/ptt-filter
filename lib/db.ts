@@ -2,9 +2,10 @@ import Database from 'better-sqlite3';
 import path from 'path';
 
 const dbPath = path.join(process.cwd(), 'database.sqlite');
+const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
 
 export const db = new Database(dbPath, {
-  // verbose: console.log
+  readonly: isProduction,
 });
 
 export interface User {
