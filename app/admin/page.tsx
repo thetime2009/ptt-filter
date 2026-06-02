@@ -12,8 +12,8 @@ export default async function AdminDashboard() {
   const categoriesCountRes = await db.query('SELECT COUNT(*) as count FROM categories');
   const categoriesCount = categoriesCountRes.rows[0];
 
-  const usersCountRes = await db.query('SELECT COUNT(*) as count FROM users');
-  const usersCount = usersCountRes.rows[0];
+  const portfolioCountRes = await db.query('SELECT COUNT(*) as count FROM portfolio_items');
+  const portfolioCount = portfolioCountRes.rows[0];
 
   const recentProductsRes = await db.query(`
     SELECT p.*, c.name_th as category_name_th 
@@ -54,10 +54,10 @@ export default async function AdminDashboard() {
         </div>
 
         <div className={`${styles.statCard} glass`}>
-          <span className={styles.statIcon}>👥</span>
+          <span className={styles.statIcon}>🖼️</span>
           <div>
-            <h3 className={styles.statVal}>{usersCount?.count || 0}</h3>
-            <p className={styles.statLabel}>ผู้ดูแลระบบ</p>
+            <h3 className={styles.statVal}>{portfolioCount?.count || 0}</h3>
+            <p className={styles.statLabel}>ผลงานทั้งหมด</p>
           </div>
         </div>
       </div>
@@ -128,8 +128,14 @@ export default async function AdminDashboard() {
             <Link href="/admin/products/new" className={styles.quickItem}>
               ➕ อัพโหลดสินค้าและสเปคใหม่
             </Link>
-            <Link href="/products" target="_blank" className={styles.quickItem}>
-              👁️ เปิดชมหน้าบ้าน (มุมมองลูกค้า)
+            <Link href="/admin/portfolio" className={styles.quickItem}>
+              🖼️ จัดการรูปภาพและผลงาน (Portfolio)
+            </Link>
+            <Link href="/admin/portfolio/new" className={styles.quickItem}>
+              ➕ เพิ่มผลงานหรือโครงการใหม่
+            </Link>
+            <Link href="/gallery" target="_blank" className={styles.quickItem}>
+              👁️ เปิดชมหน้าแกลเลอรีผลงาน
             </Link>
           </div>
         </div>

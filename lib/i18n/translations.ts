@@ -3,6 +3,7 @@ export const translations = {
     nav: {
       home: 'หน้าแรก',
       products: 'สินค้า',
+      gallery: 'ผลงานของเรา',
       about: 'เกี่ยวกับเรา',
       contact: 'ติดต่อเรา',
       admin: 'จัดการหลังบ้าน',
@@ -106,6 +107,7 @@ export const translations = {
     nav: {
       home: 'Home',
       products: 'Products',
+      gallery: 'Our Works',
       about: 'About Us',
       contact: 'Contact Us',
       admin: 'Dashboard',
@@ -209,6 +211,7 @@ export const translations = {
     nav: {
       home: '首页',
       products: '产品中心',
+      gallery: '工程案例',
       about: '关于我们',
       contact: '联系我们',
       admin: '后台管理',
