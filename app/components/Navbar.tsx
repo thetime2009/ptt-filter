@@ -38,6 +38,9 @@ export default function Navbar({ session, signOutAction }: NavbarProps) {
           <Link href="/gallery" className={`${styles.link} ${pathname.startsWith('/gallery') ? styles.active : ''}`}>
             {t.nav.gallery}
           </Link>
+          <Link href="/custom" className={`${styles.link} ${pathname === '/custom' ? styles.active : ''}`}>
+            {t.nav.custom}
+          </Link>
           <Link href="/about" className={`${styles.link} ${pathname === '/about' ? styles.active : ''}`}>
             {t.nav.about}
           </Link>
