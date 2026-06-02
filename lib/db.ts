@@ -2,12 +2,28 @@ import { Pool } from 'pg';
 
 const connectionString = process.env.POSTGRES_URL;
 
-export const pool = new Pool({
-  connectionString,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+let pool: Pool;
+
+if (process.env.NODE_ENV === 'production') {
+  pool = new Pool({
+    connectionString,
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  });
+} else {
+  if (!(global as any).pgPool) {
+    (global as any).pgPool = new Pool({
+      connectionString,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    });
+  }
+  pool = (global as any).pgPool;
+}
+
+export { pool };
 
 export const db = {
   async query(text: string, params?: any[]) {

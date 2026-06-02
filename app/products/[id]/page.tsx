@@ -5,8 +5,25 @@ import styles from './product-detail.module.css';
 import { cookies } from 'next/headers';
 import { translations } from '@/lib/i18n/translations';
 import { Locale } from '@/lib/i18n/config';
+import { unstable_cache } from 'next/cache';
+import ProductImages from './ProductImages';
+import { parseProductImages } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
+
+const getCachedProduct = unstable_cache(
+  async (productId: number) => {
+    const productRes = await db.query(`
+      SELECT p.*, c.name as category_name_en, c.name_th as category_name_th 
+      FROM products p 
+      JOIN categories c ON p.category_id = c.id 
+      WHERE p.id = $1 AND p.is_active = 1
+    `, [productId]);
+    return productRes.rows[0];
+  },
+  ['product-detail'],
+  { tags: ['products'] }
+);
 
 export default async function ProductDetailPage({
   params,
@@ -20,13 +37,7 @@ export default async function ProductDetailPage({
   const locale = (cookieStore.get('locale')?.value || 'th') as Locale;
   const t = translations[locale] || translations.th;
 
-  const productRes = await db.query(`
-    SELECT p.*, c.name as category_name_en, c.name_th as category_name_th 
-    FROM products p 
-    JOIN categories c ON p.category_id = c.id 
-    WHERE p.id = $1 AND p.is_active = 1
-  `, [productId]);
-  const product = productRes.rows[0];
+  const product = await getCachedProduct(productId);
 
   if (!product) {
     return (
@@ -43,13 +54,7 @@ export default async function ProductDetailPage({
     );
   }
 
-  let images = [];
-  try {
-    images = JSON.parse(product.images || '[]');
-  } catch (e) {
-    images = [];
-  }
-  const firstImg = images.length > 0 ? images[0] : '';
+  const images = parseProductImages(product.images);
 
   let specs = {} as Record<string, string>;
   try {
@@ -79,26 +84,7 @@ export default async function ProductDetailPage({
       <div className={styles.layout}>
         {/* Product Media */}
         <div className={styles.imageArea}>
-          <div className={styles.mainImagePlaceholder}>
-            {firstImg ? (
-              <img
-                src={firstImg}
-                alt={name}
-                className={styles.image}
-              />
-            ) : (
-              <span>⚙️</span>
-            )}
-          </div>
-          {images.length > 1 && (
-            <div className={styles.thumbs}>
-              {images.map((img: string, idx: number) => (
-                <div key={idx} className={styles.thumb}>
-                  <Image src={img} alt={`thumbnail-${idx}`} width={80} height={80} style={{ objectFit: 'cover', borderRadius: '4px' }} />
-                </div>
-              ))}
-            </div>
-          )}
+          <ProductImages images={images} name={name} />
         </div>
 
         {/* Product Information */}

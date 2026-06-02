@@ -4,14 +4,23 @@ import { db } from '@/lib/db';
 import { cookies } from 'next/headers';
 import { translations } from '@/lib/i18n/translations';
 import { Locale } from '@/lib/i18n/config';
+import { unstable_cache } from 'next/cache';
+
+const getCachedCategories = unstable_cache(
+  async () => {
+    const categoriesRes = await db.query('SELECT * FROM categories');
+    return categoriesRes.rows;
+  },
+  ['categories-list'],
+  { tags: ['categories'] }
+);
 
 export default async function Home() {
   const cookieStore = await cookies();
   const locale = (cookieStore.get('locale')?.value || 'th') as Locale;
   const t = translations[locale] || translations.th;
 
-  const categoriesRes = await db.query('SELECT * FROM categories');
-  const categories = categoriesRes.rows;
+  const categories = await getCachedCategories();
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>

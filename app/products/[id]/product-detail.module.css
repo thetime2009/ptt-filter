@@ -1,5 +1,5 @@
 .container {
-  padding: 60px 0;
+  padding: 80px 0;
 }
 
 .backBtn {
@@ -8,21 +8,30 @@
   gap: 8px;
   color: var(--muted-foreground);
   font-size: 14px;
-  margin-bottom: 32px;
-  transition: color 0.2s ease;
+  font-weight: 500;
+  margin-bottom: 40px;
+  transition: all 0.2s ease;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(26, 109, 204, 0.05);
+  border: 1px solid rgba(26, 109, 204, 0.1);
 }
 
 .backBtn:hover {
   color: var(--primary);
+  background: rgba(26, 109, 204, 0.1);
+  border-color: var(--primary);
+  transform: translateX(-4px);
 }
 
 .layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.1fr 0.9fr;
   gap: 60px;
+  align-items: start;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .layout {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -30,85 +39,78 @@
 }
 
 .imageArea {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  position: sticky;
+  top: 100px;
 }
 
-.mainImagePlaceholder {
-  height: auto;
-  min-height: 300px;
-  max-height: 500px;
-  background: #111a2e;
-  border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 80px;
-  border: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
-  padding: 16px;
-}
-
-.image {
-  max-width: 100%;
-  max-height: 450px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-
-.thumbs {
-  display: flex;
-  gap: 12px;
-}
-
-.thumb {
-  width: 80px;
-  height: 80px;
-  background: #111a2e;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 992px) {
+  .imageArea {
+    position: static;
+  }
 }
 
 .infoArea {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
 }
 
 .category {
-  color: var(--primary);
-  font-size: 14px;
-  font-weight: 600;
+  display: inline-block;
+  align-self: flex-start;
+  color: var(--primary-foreground);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  font-size: 12px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
+  padding: 6px 16px;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(26, 109, 204, 0.2);
 }
 
 .title {
-  font-size: 40px;
+  font-size: 42px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--foreground) 30%, #1e3a8a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .desc {
   font-size: 16px;
   color: var(--muted-foreground);
-  line-height: 1.6;
+  line-height: 1.8;
+  white-space: pre-line;
 }
 
+/* Specifications Table styling */
 .specsSection {
-  margin-top: 24px;
+  margin-top: 16px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .specsTitle {
-  font-size: 20px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 8px;
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.specsTitle::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border) 0%, rgba(199, 218, 245, 0) 100%);
 }
 
 .specsTable {
@@ -117,7 +119,12 @@
 }
 
 .specRow {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(199, 218, 245, 0.5);
+  transition: background-color 0.2s ease;
+}
+
+.specRow:hover {
+  background-color: rgba(26, 109, 204, 0.03);
 }
 
 .specRow:last-child {
@@ -125,52 +132,70 @@
 }
 
 .specLabel {
-  padding: 12px 0;
+  padding: 14px 16px;
   font-weight: 600;
   color: var(--muted-foreground);
-  width: 40%;
+  width: 35%;
   font-size: 14px;
 }
 
 .specVal {
-  padding: 12px 0;
+  padding: 14px 16px;
   color: var(--foreground);
   font-size: 14px;
 }
 
+/* Contact/Inquiry box */
 .contactBox {
-  margin-top: 32px;
-  padding: 24px;
+  margin-top: 20px;
+  padding: 30px;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(26, 109, 204, 0.2);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 246, 255, 0.9) 100%);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.contactBox::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--primary), var(--accent));
 }
 
 .contactTitle {
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .contactDesc {
   font-size: 14px;
   color: var(--muted-foreground);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .contactBtn {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
   color: var(--primary-foreground);
-  padding: 12px;
-  border-radius: 6px;
+  padding: 14px 28px;
+  border-radius: var(--radius-sm);
   font-weight: 600;
   text-align: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(26, 109, 204, 0.25);
 }
 
 .contactBtn:hover {
-  background: var(--primary-hover);
-  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26, 109, 204, 0.4);
+  filter: brightness(1.05);
 }
 
 .notFound {

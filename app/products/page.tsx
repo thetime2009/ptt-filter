@@ -5,8 +5,43 @@ import styles from './products.module.css';
 import { cookies } from 'next/headers';
 import { translations } from '@/lib/i18n/translations';
 import { Locale } from '@/lib/i18n/config';
+import { unstable_cache } from 'next/cache';
+import { parseProductImages } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
+
+const getCachedCategories = unstable_cache(
+  async () => {
+    const categoriesRes = await db.query('SELECT * FROM categories');
+    return categoriesRes.rows;
+  },
+  ['categories-list'],
+  { tags: ['categories'] }
+);
+
+const getCachedProducts = unstable_cache(
+  async (categorySlug: string) => {
+    if (categorySlug) {
+      const productsRes = await db.query(`
+        SELECT p.*, c.name as category_name_en, c.name_th as category_name_th 
+        FROM products p 
+        JOIN categories c ON p.category_id = c.id 
+        WHERE c.slug = $1 AND p.is_active = 1
+      `, [categorySlug]);
+      return productsRes.rows;
+    } else {
+      const productsRes = await db.query(`
+        SELECT p.*, c.name as category_name_en, c.name_th as category_name_th 
+        FROM products p 
+        JOIN categories c ON p.category_id = c.id 
+        WHERE p.is_active = 1
+      `);
+      return productsRes.rows;
+    }
+  },
+  ['products-list'],
+  { tags: ['products'] }
+);
 
 export default async function ProductsPage({
   searchParams,
@@ -20,29 +55,11 @@ export default async function ProductsPage({
   const locale = (cookieStore.get('locale')?.value || 'th') as Locale;
   const t = translations[locale] || translations.th;
 
-  // Get categories for sidebar
-  const categoriesRes = await db.query('SELECT * FROM categories');
-  const categories = categoriesRes.rows;
-
-  // Get products based on filter query
-  let products = [] as any[];
-  if (selectedCategorySlug) {
-    const productsRes = await db.query(`
-      SELECT p.*, c.name as category_name_en, c.name_th as category_name_th 
-      FROM products p 
-      JOIN categories c ON p.category_id = c.id 
-      WHERE c.slug = $1 AND p.is_active = 1
-    `, [selectedCategorySlug]);
-    products = productsRes.rows;
-  } else {
-    const productsRes = await db.query(`
-      SELECT p.*, c.name as category_name_en, c.name_th as category_name_th 
-      FROM products p 
-      JOIN categories c ON p.category_id = c.id 
-      WHERE p.is_active = 1
-    `);
-    products = productsRes.rows;
-  }
+  // Get categories and products in parallel to reduce database round-trip latency
+  const [categories, products] = await Promise.all([
+    getCachedCategories(),
+    getCachedProducts(selectedCategorySlug)
+  ]);
 
   return (
     <div className={`${styles.container} container`}>
@@ -84,12 +101,7 @@ export default async function ProductsPage({
           ) : (
             <div className={styles.productsGrid}>
               {products.map((prod) => {
-                let images = [];
-                try {
-                  images = JSON.parse(prod.images || '[]');
-                } catch (e) {
-                  images = [];
-                }
+                const images = parseProductImages(prod.images);
                 const firstImg = images.length > 0 ? images[0] : '';
 
                 const categoryName = locale === 'th' 
@@ -108,9 +120,12 @@ export default async function ProductsPage({
                   <Link href={`/products/${prod.id}`} key={prod.id} className={`${styles.productCard} glass`}>
                     <div className={styles.imagePlaceholder}>
                       {firstImg ? (
-                        <img
+                        <Image
                           src={firstImg}
                           alt={name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          style={{ objectFit: 'contain' }}
                           className={styles.image}
                         />
                       ) : (
