@@ -6,6 +6,7 @@ import { translations } from '@/lib/i18n/translations';
 import { Locale } from '@/lib/i18n/config';
 import { unstable_cache } from 'next/cache';
 import Image from 'next/image';
+import HeroSlider from './components/HeroSlider';
 
 const getCachedCategories = unstable_cache(
   async () => {
@@ -22,32 +23,35 @@ export default async function Home() {
   const t = translations[locale] || translations.th;
 
   const categories = await getCachedCategories();
+  
+  // Fetch hero infographics
+  const infographicsRes = await db.query('SELECT * FROM hero_infographics WHERE is_active = 1 ORDER BY display_order ASC');
+  const infographics = infographicsRes.rows;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-
-      {/* ===== HERO ===== */}
-      <section className={styles.hero}>
-        <div className={`${styles.container} container ${styles.heroLayout}`}>
+    <main className={styles.main}>
+      {/* ===== HERO SECTION ===== */}
+      <section className={styles.heroSection}>
+        <div className={`${styles.heroContainer} container`}>
           <div className={styles.heroContent}>
-            <div className={styles.badge}>{t.hero.badge}</div>
-            <h1 className={styles.title}>
-              {t.hero.title}<br />
-              <span className={styles.titleHighlight}>{t.hero.titleHighlight}</span>
+            <span className={styles.heroBadge}>{t.hero.badge}</span>
+            <h1 className={styles.heroTitle}>
+              {t.hero.title} <br />
+              <span className={styles.heroTitleAccent}>{t.hero.titleHighlight}</span>
             </h1>
-            <p className={styles.description}>
+            <p className={styles.heroDesc}>
               {t.hero.description}
             </p>
-            <div className={styles.btnGroup}>
+            
+            <div className={styles.heroActions}>
               <Link href="/products" className={styles.btnPrimary}>
                 {t.hero.explore}
               </Link>
-              <Link href="/contact" className={styles.btnSecondary}>
+              <Link href="/custom" className={styles.btnSecondary}>
                 {t.hero.quote}
               </Link>
             </div>
 
-            {/* Hero Stats */}
             <div className={styles.heroStats}>
               <div className={styles.statItem}>
                 <span className={styles.statNum}>{t.hero.statsOEM}</span>
@@ -66,35 +70,9 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Right Column: Infographic Illustration */}
+          {/* Right Column: Infographic Illustration (Slider) */}
           <div className={styles.heroGraphic}>
-            <div className={styles.infographicWrapper}>
-              <Image
-                src="/hero-infographic.png"
-                alt="PTT Filter Infographic Layout"
-                width={480}
-                height={480}
-                className={styles.infographicImage}
-                priority
-              />
-              
-              {/* Floating Badges */}
-              <div className={`${styles.floatingBadge} ${styles.badge1}`}>
-                <span className={styles.badgeIcon}>🔬</span>
-                <div className={styles.badgeText}>
-                  <strong>99.97%</strong>
-                  <span>Efficiency</span>
-                </div>
-              </div>
-
-              <div className={`${styles.floatingBadge} ${styles.badge2}`}>
-                <span className={styles.badgeIcon}>⚙️</span>
-                <div className={styles.badgeText}>
-                  <strong>Custom</strong>
-                  <span>Engineering</span>
-                </div>
-              </div>
-            </div>
+            <HeroSlider initialInfographics={infographics} />
           </div>
         </div>
       </section>
@@ -199,6 +177,6 @@ export default async function Home() {
         </div>
       </section>
 
-    </div>
+    </main>
   );
 }
