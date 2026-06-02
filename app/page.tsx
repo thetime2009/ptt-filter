@@ -31,19 +31,19 @@ export default async function Home() {
   return (
     <main className={styles.main}>
       {/* ===== HERO SECTION ===== */}
-      <section className={styles.heroSection}>
-        <div className={`${styles.heroContainer} container`}>
+      <section className={styles.hero}>
+        <div className={`${styles.container} container ${styles.heroLayout}`}>
           <div className={styles.heroContent}>
-            <span className={styles.heroBadge}>{t.hero.badge}</span>
-            <h1 className={styles.heroTitle}>
+            <span className={styles.badge}>{t.hero.badge}</span>
+            <h1 className={styles.title}>
               {t.hero.title} <br />
-              <span className={styles.heroTitleAccent}>{t.hero.titleHighlight}</span>
+              <span className={styles.titleHighlight}>{t.hero.titleHighlight}</span>
             </h1>
-            <p className={styles.heroDesc}>
+            <p className={styles.description}>
               {t.hero.description}
             </p>
             
-            <div className={styles.heroActions}>
+            <div className={styles.btnGroup}>
               <Link href="/products" className={styles.btnPrimary}>
                 {t.hero.explore}
               </Link>
