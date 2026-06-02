@@ -32,12 +32,12 @@ export default function HeroSlider({ initialInfographics }: HeroSliderProps) {
   }, [images.length]);
 
   return (
-    <div className={styles.infographicWrapper} style={{ position: 'relative' }}>
+    <div className={styles.infographicWrapper} style={{ position: 'relative', aspectRatio: '1 / 1', overflow: 'hidden', borderRadius: '16px' }}>
       {images.map((img, idx) => (
         <div
           key={img.id}
           style={{
-            position: idx === 0 ? 'relative' : 'absolute',
+            position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
@@ -54,7 +54,7 @@ export default function HeroSlider({ initialInfographics }: HeroSliderProps) {
             className={styles.infographicImage}
             style={{
               width: '100%',
-              height: 'auto',
+              height: '100%',
               borderRadius: '16px',
               objectFit: 'cover',
               boxShadow: 'var(--shadow-md)',
