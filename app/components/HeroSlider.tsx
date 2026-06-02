@@ -68,7 +68,7 @@ export default function HeroSlider({ initialInfographics }: HeroSliderProps) {
       <div className={`${styles.floatingBadge} ${styles.badge1}`} style={{ zIndex: 10 }}>
         <span className={styles.badgeIcon}>🔬</span>
         <div className={styles.badgeText}>
-          <strong>99.97%</strong>
+          <strong>99.99%</strong>
           <span>Efficiency</span>
         </div>
       </div>
