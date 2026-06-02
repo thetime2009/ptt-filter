@@ -41,8 +41,8 @@ export default async function AdminInfographicsPage() {
     <div className={`${styles.container} container`}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>🎨 จัดการรูปภาพอินโฟกราฟฟิคหน้าแรก (Hero Slider)</h1>
-          <p className={styles.subtitle}>เพิ่มหรือลบรูปภาพที่จะแสดงและสไลด์หมุนเวียนในหน้าแรกของเว็บไซต์</p>
+          <h1 className={styles.title}>🎨 จัดการรูปภาพหน้าปก / สไลด์หน้าแรก (Hero Images)</h1>
+          <p className={styles.subtitle}>เพิ่มหรือลบรูปภาพหน้าปกที่จะนำไปใช้เป็นฉากหลังและสไลด์แสดงผลในส่วนหัวของหน้าแรก</p>
         </div>
         <Link href="/admin" className={styles.backBtn}>
           &larr; กลับหน้าหลักหลังบ้าน
@@ -55,7 +55,7 @@ export default async function AdminInfographicsPage() {
           <h3 className={styles.listTitle}>🖼️ รายการรูปภาพแสดงผลปัจจุบัน</h3>
           {items.length === 0 ? (
             <div style={{ color: 'var(--muted-foreground)', textAlign: 'center', padding: '40px' }}>
-              ยังไม่มีรูปภาพอินโฟกราฟฟิคในระบบ
+              ยังไม่มีรูปภาพหน้าปกในระบบ
             </div>
           ) : (
             <div className={styles.grid}>

@@ -149,7 +149,7 @@ export default async function AdminDashboard() {
               📥 ดูคำขอใบเสนอราคาจำลอง (Inquiries)
             </Link>
             <Link href="/admin/infographics" className={styles.quickItem}>
-              🎨 จัดการรูปอินโฟกราฟฟิคหน้าแรก
+              🎨 จัดการรูปภาพสไลด์หน้าแรก (Hero Image)
             </Link>
             <Link href="/gallery" target="_blank" className={styles.quickItem}>
               👁️ เปิดชมหน้าแกลเลอรีผลงาน
