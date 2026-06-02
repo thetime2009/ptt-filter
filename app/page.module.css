@@ -7,7 +7,10 @@
   position: relative;
   padding: 130px 0 100px;
   overflow: hidden;
-  background: linear-gradient(160deg, #e8f1fd 0%, #f0f6ff 40%, #dbeafe 100%);
+  background-image: linear-gradient(to right, rgba(248, 250, 252, 0.95) 40%, rgba(248, 250, 252, 0.8) 100%), var(--hero-bg-url);
+  background-size: cover;
+  background-position: left center;
+  background-repeat: no-repeat;
 }
 
 .hero::before {
@@ -442,6 +445,9 @@
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
+  .hero {
+    background-image: linear-gradient(160deg, #f1f5f9 0%, #f8fafc 100%) !important;
+  }
   .strengthGrid { grid-template-columns: 1fr; }
   .ctaBox {
     flex-direction: column;

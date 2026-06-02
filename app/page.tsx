@@ -36,11 +36,8 @@ export default async function Home() {
       <section 
         className={styles.hero}
         style={{
-          backgroundImage: `linear-gradient(to right, rgba(248, 250, 252, 0.95) 40%, rgba(248, 250, 252, 0.8) 100%), url(${heroBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'left center',
-          backgroundRepeat: 'no-repeat'
-        }}
+          '--hero-bg-url': `url(${heroBg})`
+        } as React.CSSProperties}
       >
         <div className={`${styles.container} container ${styles.heroLayout}`}>
           <div className={styles.heroContent}>
