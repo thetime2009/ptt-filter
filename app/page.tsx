@@ -28,10 +28,20 @@ export default async function Home() {
   const infographicsRes = await db.query('SELECT * FROM hero_infographics WHERE is_active = 1 ORDER BY display_order ASC');
   const infographics = infographicsRes.rows;
 
+  const heroBg = infographics.length > 0 ? infographics[0].image_url : '/images/hero-bg.jpg';
+
   return (
     <main className={styles.main}>
       {/* ===== HERO SECTION ===== */}
-      <section className={styles.hero}>
+      <section 
+        className={styles.hero}
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(248, 250, 252, 0.95) 40%, rgba(248, 250, 252, 0.8) 100%), url(${heroBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'left center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
         <div className={`${styles.container} container ${styles.heroLayout}`}>
           <div className={styles.heroContent}>
             <span className={styles.badge}>{t.hero.badge}</span>

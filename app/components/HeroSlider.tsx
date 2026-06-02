@@ -57,29 +57,13 @@ export default function HeroSlider({ initialInfographics }: HeroSliderProps) {
               height: '100%',
               borderRadius: '16px',
               objectFit: 'cover',
+              objectPosition: 'right center',
               boxShadow: 'var(--shadow-md)',
               border: '2px solid var(--border)',
             }}
           />
         </div>
       ))}
-      
-      {/* Floating Badges (stay static outside the sliding containers so they are always visible) */}
-      <div className={`${styles.floatingBadge} ${styles.badge1}`} style={{ zIndex: 10 }}>
-        <span className={styles.badgeIcon}>🔬</span>
-        <div className={styles.badgeText}>
-          <strong>99.99%</strong>
-          <span>Efficiency</span>
-        </div>
-      </div>
-
-      <div className={`${styles.floatingBadge} ${styles.badge2}`} style={{ zIndex: 10 }}>
-        <span className={styles.badgeIcon}>⚙️</span>
-        <div className={styles.badgeText}>
-          <strong>Custom</strong>
-          <span>Engineering</span>
-        </div>
-      </div>
 
       {/* Slider indicators */}
       {images.length > 1 && (
