@@ -13,7 +13,7 @@ export default function Footer() {
         <div className={styles.grid}>
           <div className={styles.brand}>
             <Link href="/" className={styles.logo}>
-              <span className={styles.logoAccent}>PTT</span> FILTER
+              <span className={styles.logoAccent}>PTTS-</span>FILTER
             </Link>
             <p className={styles.desc}>
               {t.footer.desc}

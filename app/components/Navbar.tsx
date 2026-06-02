@@ -27,7 +27,7 @@ export default function Navbar({ session, signOutAction }: NavbarProps) {
     <header className={`${styles.header} glass`}>
       <div className={`${styles.container} container`}>
         <Link href="/" className={styles.logo} onClick={() => setMenuOpen(false)}>
-          <span className={styles.logoAccent}>PTT</span> FILTER
+          <span className={styles.logoAccent}>PTTS-</span>FILTER
         </Link>
         
         {/* Mobile Hamburger Toggle */}
