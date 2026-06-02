@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
@@ -15,6 +16,7 @@ interface NavbarProps {
 export default function Navbar({ session, signOutAction }: NavbarProps) {
   const pathname = usePathname();
   const { locale, setLocale, t } = useLanguage();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleSignOut = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,11 +26,22 @@ export default function Navbar({ session, signOutAction }: NavbarProps) {
   return (
     <header className={`${styles.header} glass`}>
       <div className={`${styles.container} container`}>
-        <Link href="/" className={styles.logo}>
+        <Link href="/" className={styles.logo} onClick={() => setMenuOpen(false)}>
           <span className={styles.logoAccent}>PTT</span> FILTER
         </Link>
         
-        <nav className={styles.nav}>
+        {/* Mobile Hamburger Toggle */}
+        <button 
+          className={styles.menuBtn} 
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle navigation menu"
+        >
+          <span style={{ transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }}></span>
+          <span style={{ opacity: menuOpen ? 0 : 1 }}></span>
+          <span style={{ transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }}></span>
+        </button>
+        
+        <nav className={`${styles.nav} ${menuOpen ? styles.open : ''}`} onClick={() => setMenuOpen(false)}>
           <Link href="/" className={`${styles.link} ${pathname === '/' ? styles.active : ''}`}>
             {t.nav.home}
           </Link>
