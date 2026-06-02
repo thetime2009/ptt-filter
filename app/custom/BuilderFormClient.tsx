@@ -6,7 +6,7 @@ import styles from './custom-builder.module.css';
 
 interface BuilderFormClientProps {
   locale: 'th' | 'en' | 'zh';
-  submitAction: (payload: any) => Promise<{ success: boolean; error?: string }>;
+  submitAction: (payload: any) => Promise<{ success: boolean; requestNumber?: string; error?: string }>;
 }
 
 export default function BuilderFormClient({ locale, submitAction }: BuilderFormClientProps) {
@@ -36,6 +36,7 @@ export default function BuilderFormClient({ locale, submitAction }: BuilderFormC
   // Status
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [assignedRequestNumber, setAssignedRequestNumber] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   // Accordion active step index
@@ -70,6 +71,7 @@ export default function BuilderFormClient({ locale, submitAction }: BuilderFormC
     const res = await submitAction(payload);
     setLoading(false);
     if (res.success) {
+      setAssignedRequestNumber(res.requestNumber || '');
       setSuccess(true);
       // Reset form
       setName('');
@@ -86,12 +88,43 @@ export default function BuilderFormClient({ locale, submitAction }: BuilderFormC
       <div className={`${styles.successCard} glass`}>
         <div className={styles.successIcon}>✓</div>
         <h2>{locale === 'th' ? 'ส่งแบบโครงสร้างไส้กรองสำเร็จ!' : 'Inquiry Submitted Successfully!'}</h2>
-        <p>
+        
+        <div className={styles.reqNumContainer}>
+          <p className={styles.reqNumLabel}>เลขที่ใบคำขอของคุณ (Request ID)</p>
+          <strong className={styles.reqNumValue}>{assignedRequestNumber}</strong>
+        </div>
+
+        <p className={styles.successDesc}>
           {locale === 'th'
-            ? 'วิศวกรของเราได้รับแบบไส้กรองที่คุณประกอบเรียบร้อยแล้ว เราจะทำการตรวจสอบแบบ ประเมินราคา และติดต่อกลับหาคุณภายใน 24 ชั่วโมง'
-            : 'Our engineers have received your custom configuration. We will inspect specifications and get back to you with a quote within 24 hours.'}
+            ? 'วิศวกรของเราได้รับแบบไส้กรองที่คุณประกอบเรียบร้อยแล้ว กรุณาแคปหน้าจอนี้ หรือจดเลขคำขอไว้เพื่อใช้ในการติดตามสถานะคำขอทางช่องทางติดต่อด้านล่าง'
+            : 'We have received your custom configuration. Please keep this Request ID to track your status.'}
         </p>
-        <button onClick={() => setSuccess(false)} className={styles.resetBtn}>
+
+        <div className={styles.contactDetailsBox}>
+          <h3>💬 ช่องทางด่วนในการส่งรายละเอียด หรือติดตามสถานะ</h3>
+          
+          <a
+            href="https://line.me/ti/p/~THETIME2009"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.lineBtn}
+          >
+            <span>💬</span> แอด LINE ID: <strong>THETIME2009</strong> (คลิกเพื่อแอดไลน์)
+          </a>
+
+          <div className={styles.phoneList}>
+            <div>📞 <strong>โทรศัพท์ติดต่อด่วน:</strong></div>
+            <a href="tel:0846690495">084-669-0495 (คุณสุรศักดิ์)</a>
+            <a href="tel:0622451241">062-245-1241 (สำนักงานใหญ่)</a>
+          </div>
+
+          <div style={{ marginTop: '12px', fontSize: '13px', color: 'var(--muted-foreground)' }}>
+            📍 <strong>บริษัท ปิ่นทองเทรดดิ้ง แอนด์ ซัพพลาย จำกัด (สำนักงานใหญ่)</strong><br />
+            เลขที่ 9/88 หมู่ที่ 2 ตำบลแพรกษาใหม่ อำเภอเมืองสมุทรปราการ จังหวัดสมุทรปราการ 10280 (ห้อง B6 โครงการ Lalita Factory)
+          </div>
+        </div>
+
+        <button onClick={() => setSuccess(false)} className={styles.resetBtn} style={{ marginTop: '20px' }}>
           {locale === 'th' ? 'ออกแบบชิ้นส่วนใหม่อีกครั้ง' : 'Design Another Filter'}
         </button>
       </div>

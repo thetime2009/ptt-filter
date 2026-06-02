@@ -38,9 +38,10 @@ export default function Footer() {
 
           <div className={styles.contact}>
             <h4 className={styles.title}>{t.footer.contactInfo}</h4>
-            <p>{t.contact.email}: info@pttfilter.com</p>
-            <p>{t.contact.phone}: 02-XXX-XXXX</p>
-            <p>{t.footer.address}</p>
+            <p style={{ margin: '4px 0' }}>✉️ <a href="mailto:THETIME.POTA@GMAIL.COM" style={{ color: 'inherit', textDecoration: 'none' }}>THETIME.POTA@GMAIL.COM</a></p>
+            <p style={{ margin: '4px 0' }}>📞 <a href="tel:0622451241" style={{ color: 'inherit', textDecoration: 'none' }}>062-245-1241</a> / <a href="tel:0846690495" style={{ color: 'inherit', textDecoration: 'none' }}>084-669-0495</a></p>
+            <p style={{ margin: '4px 0' }}>💬 Line: <a href="https://line.me/ti/p/~THETIME2009" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontWeight: 'bold' }}>THETIME2009</a></p>
+            <p style={{ margin: '8px 0 4px 0', fontSize: '13px', opacity: 0.85 }}>📍 {t.footer.address}</p>
           </div>
         </div>
 

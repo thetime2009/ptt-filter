@@ -19,19 +19,26 @@ export default async function CustomFilterPage() {
     'use server';
 
     try {
+      const date = new Date();
+      const dateStr = date.toISOString().slice(2, 10).replace(/-/g, ''); // YYMMDD
+      const randomNum = Math.floor(1000 + Math.random() * 9000); // 4-digit random number
+      const requestNumber = `REQ-${dateStr}-${randomNum}`;
+
       await db.query(`
-        INSERT INTO custom_inquiries (name, email, phone, specs, message)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO custom_inquiries (name, email, phone, specs, message, request_number, status)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
       `, [
         payload.name,
         payload.email,
         payload.phone || '',
         JSON.stringify(payload.specs),
-        payload.message || ''
+        payload.message || '',
+        requestNumber,
+        'pending' // default status
       ]);
 
       revalidatePath('/admin');
-      return { success: true };
+      return { success: true, requestNumber };
     } catch (e: any) {
       console.error(e);
       return { success: false, error: e.message || 'เกิดข้อผิดพลาดในการส่งข้อมูล ขออภัยในความไม่สะดวก' };

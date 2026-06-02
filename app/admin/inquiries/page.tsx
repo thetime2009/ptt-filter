@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { revalidatePath } from 'next/cache';
 import styles from './inquiries-admin.module.css';
 import DeleteInquiryBtn from './DeleteInquiryBtn';
+import StatusSelector from './StatusSelector';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +16,14 @@ export default async function AdminInquiriesPage() {
     'use server';
     await db.query('DELETE FROM custom_inquiries WHERE id = $1', [id]);
     revalidatePath('/admin/inquiries');
+  };
+
+  // Server Action to update inquiry status
+  const updateStatusAction = async (id: number, status: string) => {
+    'use server';
+    await db.query('UPDATE custom_inquiries SET status = $1 WHERE id = $2', [status, id]);
+    revalidatePath('/admin/inquiries');
+    return true;
   };
 
   return (
@@ -48,10 +57,27 @@ export default async function AdminInquiriesPage() {
               <div key={inq.id} className={`${styles.inquiryCard} glass`}>
                 <div className={styles.cardHeader}>
                   <div className={styles.customerInfo}>
-                    <h3 className={styles.customerName}>{inq.name}</h3>
-                    <span className={styles.date}>
-                      📅 {new Date(inq.created_at).toLocaleString('th-TH')}
-                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                      <h3 className={styles.customerName} style={{ margin: 0 }}>{inq.name}</h3>
+                      <span style={{
+                        background: 'var(--primary-light)',
+                        color: 'var(--primary)',
+                        padding: '4px 10px',
+                        borderRadius: '4px',
+                        fontSize: '13px',
+                        fontWeight: 'bold'
+                      }}>
+                        {inq.request_number || 'REQ-N/A'}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '6px', fontSize: '13px', color: 'var(--muted-foreground)' }}>
+                      <span>📅 {new Date(inq.created_at).toLocaleString('th-TH')}</span>
+                      <StatusSelector
+                        inquiryId={inq.id}
+                        currentStatus={inq.status}
+                        updateStatusAction={updateStatusAction}
+                      />
+                    </div>
                   </div>
                   <div className={styles.cardActions}>
                     <DeleteInquiryBtn inquiryId={inq.id} deleteAction={deleteAction} />

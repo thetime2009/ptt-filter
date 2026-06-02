@@ -86,6 +86,8 @@ async function init() {
         phone VARCHAR(100),
         specs JSONB NOT NULL,
         message TEXT,
+        request_number VARCHAR(100),
+        status VARCHAR(50) DEFAULT 'pending',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);

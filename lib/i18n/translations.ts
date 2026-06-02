@@ -55,7 +55,7 @@ export const translations = {
       desc: 'ผู้ออกแบบและผลิตระบบกรองอุตสาหกรรมระดับพรีเมียม ตอบโจทย์ทุกการใช้งานทางวิศวกรรมและการผลิต',
       quickLinks: 'ลิงก์ด่วน',
       contactInfo: 'ข้อมูลติดต่อ',
-      address: 'กรุงเทพมหานคร, ประเทศไทย',
+      address: '9/88 หมู่ที่ 2 ถ.บางพลี-ตำหรุ ต.แพรกษาใหม่ อ.เมืองสมุทรปราการ จ.สมุทรปราการ 10280',
       rights: 'สงวนลิขสิทธิ์ทั้งหมด',
     },
     about: {
@@ -160,7 +160,7 @@ export const translations = {
       desc: 'Premium designer and manufacturer of industrial filtration systems. Answering every engineering and production need.',
       quickLinks: 'Quick Links',
       contactInfo: 'Contact Info',
-      address: 'Bangkok, Thailand',
+      address: '9/88 Moo 2, Bang Phli-Tamru Rd, Phraeksa Mai, Mueang Samut Prakan, Samut Prakan 10280',
       rights: 'All rights reserved',
     },
     about: {
@@ -265,7 +265,7 @@ export const translations = {
       desc: '专业工业过滤系统设计与制造厂商，满足每一项工程和生产需求。',
       quickLinks: '快速链接',
       contactInfo: '联系信息',
-      address: '泰国，曼谷',
+      address: '9/88 Moo 2, Bang Phli-Tamru Rd, Phraeksa Mai, Mueang Samut Prakan, Samut Prakan 10280',
       rights: '版权所有',
     },
     about: {
