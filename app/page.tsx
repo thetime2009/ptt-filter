@@ -57,6 +57,9 @@ export default async function Home() {
               <Link href="/custom" className={styles.btnSecondary}>
                 {t.hero.quote}
               </Link>
+              <Link href="/custom" className={styles.btnSecondary}>
+                {t.hero.customBtn}
+              </Link>
             </div>
 
             <div className={styles.heroStats}>
