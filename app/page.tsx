@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import { translations } from '@/lib/i18n/translations';
 import { Locale } from '@/lib/i18n/config';
 import { unstable_cache } from 'next/cache';
+import Image from 'next/image';
 
 const getCachedCategories = unstable_cache(
   async () => {
@@ -27,7 +28,7 @@ export default async function Home() {
 
       {/* ===== HERO ===== */}
       <section className={styles.hero}>
-        <div className={`${styles.container} container`}>
+        <div className={`${styles.container} container ${styles.heroLayout}`}>
           <div className={styles.heroContent}>
             <div className={styles.badge}>{t.hero.badge}</div>
             <h1 className={styles.title}>
@@ -61,6 +62,37 @@ export default async function Home() {
               <div className={styles.statItem}>
                 <span className={styles.statNum}>{t.hero.statsReady}</span>
                 <span className={styles.statLabel}>{t.hero.statsReady_label}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Infographic Illustration */}
+          <div className={styles.heroGraphic}>
+            <div className={styles.infographicWrapper}>
+              <Image
+                src="/hero-infographic.png"
+                alt="PTT Filter Infographic Layout"
+                width={480}
+                height={480}
+                className={styles.infographicImage}
+                priority
+              />
+              
+              {/* Floating Badges */}
+              <div className={`${styles.floatingBadge} ${styles.badge1}`}>
+                <span className={styles.badgeIcon}>🔬</span>
+                <div className={styles.badgeText}>
+                  <strong>99.97%</strong>
+                  <span>Efficiency</span>
+                </div>
+              </div>
+
+              <div className={`${styles.floatingBadge} ${styles.badge2}`}>
+                <span className={styles.badgeIcon}>⚙️</span>
+                <div className={styles.badgeText}>
+                  <strong>Custom</strong>
+                  <span>Engineering</span>
+                </div>
               </div>
             </div>
           </div>

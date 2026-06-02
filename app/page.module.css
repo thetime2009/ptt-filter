@@ -469,3 +469,149 @@
   }
   .ctaTitle { font-size: 22px; }
 }
+
+/* ===== HERO INFOGRAPHIC ===== */
+.heroLayout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+@media (max-width: 992px) {
+  .heroLayout {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.heroContent {
+  max-width: 600px;
+  flex: 1.1;
+}
+
+.heroGraphic {
+  flex: 0.9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  .heroGraphic {
+    margin-top: 50px;
+  }
+}
+
+.infographicWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  border-radius: var(--radius-lg);
+  overflow: visible;
+  animation: float-main 6s ease-in-out infinite;
+}
+
+.infographicImage {
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 40px rgba(26, 109, 204, 0.12), 0 0 30px rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(26, 109, 204, 0.15);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.floatingBadge {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(26, 109, 204, 0.2);
+  padding: 10px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+.floatingBadge:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.badgeIcon {
+  font-size: 24px;
+}
+
+.badgeText {
+  display: flex;
+  flex-direction: column;
+}
+
+.badgeText strong {
+  font-size: 15px;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.badgeText span {
+  font-size: 11px;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.badge1 {
+  top: 15%;
+  left: -20px;
+  animation: float-badge1 5s ease-in-out infinite alternate;
+}
+
+.badge2 {
+  bottom: 15%;
+  right: -20px;
+  animation: float-badge2 5s ease-in-out infinite alternate;
+}
+
+@media (max-width: 480px) {
+  .floatingBadge {
+    padding: 8px 12px;
+  }
+  .badgeIcon {
+    font-size: 20px;
+  }
+  .badgeText strong {
+    font-size: 13px;
+  }
+  .badge1 {
+    left: -10px;
+  }
+  .badge2 {
+    right: -10px;
+  }
+}
+
+@keyframes float-main {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes float-badge1 {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(6px, -6px); }
+}
+
+@keyframes float-badge2 {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-6px, 6px); }
+}
