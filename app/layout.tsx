@@ -7,7 +7,7 @@ import Footer from '@/app/components/Footer';
 import { LanguageProvider } from '@/lib/i18n/LanguageContext';
 
 export const metadata: Metadata = {
-  title: 'PTT Filter | ระบบกรองอุตสาหกรรม และโครงสร้างไส้กรองคุณภาพสูง',
+  title: 'PTTS-Filter | ระบบกรองอุตสาหกรรม และโครงสร้างไส้กรองคุณภาพสูง',
   description: 'ผู้ผลิตและออกแบบโครงสร้างไส้กรองอากาศ, ดักฝุ่น, ควัน, และกรองน้ำมันไฮดรอลิกสำหรับงานอุตสาหกรรมหนักทุกประเภท',
 };
 
