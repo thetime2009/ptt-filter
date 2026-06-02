@@ -15,6 +15,9 @@ export default async function AdminDashboard() {
   const portfolioCountRes = await db.query('SELECT COUNT(*) as count FROM portfolio_items');
   const portfolioCount = portfolioCountRes.rows[0];
 
+  const inquiriesCountRes = await db.query('SELECT COUNT(*) as count FROM custom_inquiries');
+  const inquiriesCount = inquiriesCountRes.rows[0];
+
   const recentProductsRes = await db.query(`
     SELECT p.*, c.name_th as category_name_th 
     FROM products p 
@@ -58,6 +61,14 @@ export default async function AdminDashboard() {
           <div>
             <h3 className={styles.statVal}>{portfolioCount?.count || 0}</h3>
             <p className={styles.statLabel}>ผลงานทั้งหมด</p>
+          </div>
+        </div>
+
+        <div className={`${styles.statCard} glass`}>
+          <span className={styles.statIcon}>📥</span>
+          <div>
+            <h3 className={styles.statVal}>{inquiriesCount?.count || 0}</h3>
+            <p className={styles.statLabel}>คำขอใบเสนอราคา</p>
           </div>
         </div>
       </div>
@@ -133,6 +144,9 @@ export default async function AdminDashboard() {
             </Link>
             <Link href="/admin/portfolio/new" className={styles.quickItem}>
               ➕ เพิ่มผลงานหรือโครงการใหม่
+            </Link>
+            <Link href="/admin/inquiries" className={styles.quickItem}>
+              📥 ดูคำขอใบเสนอราคาจำลอง (Inquiries)
             </Link>
             <Link href="/gallery" target="_blank" className={styles.quickItem}>
               👁️ เปิดชมหน้าแกลเลอรีผลงาน
